@@ -1,0 +1,194 @@
+--------------------------------------------------------------------------------
+CARrampsOcl R Package Version 0.1.3
+Installation Notes (08/16/2013)
+Package Maintainer: Kate Cowles <kate-cowles@uiowa.edu>
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+I.   Overview
+     (a) Introduction
+     (b) Hardware requirements
+     (c) Supported operating systems
+II.  Installation instructions
+     (a) NVIDIA or AMD graphics driver 
+     (b) NVIDIA CUDA Toolkit (Nvidia cards only)
+     (c) OpenCL headers (AMD cards only)
+     (d) R packages OpenCL and fields
+     (e) Environment variables
+     (f) CARrampsOcl R package
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+I. (a) Introduction
+--------------------------------------------------------------------------------
+
+The R package 'CARrampsOcl' enables fitting of a class of Bayesian conditional
+autoregressive models to spatial and spatiotemporal data.  Fast independent
+sampling from the joint posterior density is made possible using the massive
+parallelization enabled by OpenCl-capable graphics cards.
+
+
+--------------------------------------------------------------------------------
+I. (b) Hardware requirements
+--------------------------------------------------------------------------------
+
+* A 64-bit Intel-compatible CPU is required.
+
+* A graphics card with OpenCL and double precision capability. 
+  Many GPUs made by AMD and Nvidia meet these requirements.  
+
+
+--------------------------------------------------------------------------------
+I. (c) Supported operating systems
+--------------------------------------------------------------------------------
+
+* Development and testing of the package were performed on 64-bit Fedora 16 
+  and 17 and Ubuntu 12.10 and 13.04 Linux.
+
+* At this time, the package has not been tried on OS X or Windows.
+
+
+--------------------------------------------------------------------------------
+II. (a) Installation of OpenCL compatible graphics driver
+--------------------------------------------------------------------------------
+
+For use with Nvidia graphics cards, an NVIDIA proprietary driver compatible 
+with the NVIDIA CUDA Toolkit must be installed prior to the installation of 
+the CUDA Toolkit and the CARrampsOcl R package.  Under Ubuntu, this typically 
+can be done through the "Additional drivers" feature or the Synaptic package 
+manager.  Alternatively, the drivers may be downloaded from the Nvidia site 
+as described in the next section.
+
+For AMD graphics cards, the proprietary AMD driver must be installed.  
+The Linux version is called "fglrx" or "fglrx-updates," and under Ubuntu,
+may be installed in the same manner described in the previous paragraph.
+Alternatively, the drivers may be downloaded from the AMD website.
+
+--------------------------------------------------------------------------------
+II. (b) Installation of NVIDIA CUDA Toolkit (Nvidia cards only)
+--------------------------------------------------------------------------------
+
+For Nvidia graphics cards, additional required OpenCL files are included
+in the CUDA Toolkit, a collection of libraries and callable routines
+that provide a programming interface to NVIDIA graphics cards.
+
+Perform the following steps to install the CUDA Toolkit version 4.0 or greater:
+
+(i)  Go to http://developer.nvidia.com/cuda-downloads
+
+(ii) Click the link for the Getting Started Guide Linux.  Follow the 
+     instructions in the Guide to install the developer driver (if you 
+     haven't already installed it by other means) and the CUDA Toolkit.  
+
+(iii) Check that the Toolkit is installed correctly by trying one or more 
+      of the example programs.
+
+--------------------------------------------------------------------------------
+II. (c) Installation of OpenCL headers (AMD cards only)
+--------------------------------------------------------------------------------
+
+For the AMD OpenCL implementation on GPUs, most necessary files accompany the
+driver installation.  The AMD OpenCL SDK is not needed for CARrampsOcl.
+However, the OpenCL headers must be installed.  Under recent versions of
+Ubuntu, this may be accomplished by installing the package "opencl-headers."
+Alternatively, the headers may be downloaded from
+
+     http://www.khronos.org/registry/cl/
+
+and placed in a directory called CL (uppercase required).
+
+--------------------------------------------------------------------------------
+II. (d) Installation of the R packages OpenCL and fields 
+--------------------------------------------------------------------------------
+
+The R packages OpenCL and fields must be installed prior to installation
+of CARrampsOcl.  The instructions above, as well as those below for setting
+ environment variables, may be helpful in installing the OpenCL package.
+
+--------------------------------------------------------------------------------
+II. (e) Setting environment variables (may not be necessary)
+--------------------------------------------------------------------------------
+
+If the OpenCL headers and shared library have been installed in default
+locations (e.g. by installing the "fglrx" and "opencl-updates" packages under
+Ubuntu), then the following step may not be necessary.
+
+Before installing CARrampsOcl, two environment variables must be set to 
+enable the compiler and linker to locate the libOpenCL.so shared library 
+and the OpenCL header files.
+
+  i.  The PKG_LIBS environment variable must be set to:
+            -L<path to libOpenCL.so> -lOpenCL
+ ii.  The PKG_CFLAGS environment variable must be set to:
+            -I<path to CL directory containing the OpenCL header files>
+
+For example, consider a computer with an AMD GPU on which libOpenCL.so 
+is contained in /usr/lib/fglrx and the OpenCL header files were downloaded 
+into /home/kate/Downloads/CL. Under the bash shell, the following two lines 
+would set the environment variables appropriately.  These lines may either 
+be executed at the command line or be included in the .bashrc configuration 
+file.
+
+   export PKG_LIBS='-L/usr/lib/fglrx -lOpenCL'  
+   export PKG_CFLAGS=-I/home/kate/Downloads/
+
+As another example, consider a computer with an Nvidia GPU on which 
+libOpenCL.so is contained in /usr/lib64/nvidia and the OpenCL header files 
+are in /opt/cuda/sdk/OpenCL/common/inc/CL.  Under the C shell, the 
+following two lines would set the environment variables appropriately.  
+These lines may either be executed at the command line or be included in 
+the .cshrc configuration file.
+
+   setenv PKG_LIBS '-L/usr/lib64/nvidia -lOpenCL'
+   setenv PKG_CFLAGS -I/opt/cuda/sdk/OpenCL/common/inc/
+
+In either case, if the lines are executed at the command line, the settings 
+will take effect immediately but will be lost when the user logs out.  
+Conversely, if the lines are included in the configuration file, in order 
+for them to take effect during the current session, the user must enter
+      source .bashrc
+or
+      source .cshrc
+Thereafter, the environment variables will be set every time the user logs in.
+
+It may also be necessary to set the LD_LIBRARY_PATH variable to include
+the directory containing libOpenCL.so in order to locate the shared
+library every time the CARrampsOcl package is run.  Since this setting must
+be available permanently, this should be done by adding one of the following as 
+the last line in the configuration file:
+
+     (add to .bashrc if using bash shell)
+     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<path to libOpenCL.so>
+
+     (add to .cshrc if using C shell)
+     setenv LD_LIBRARY_PATH $LD_LIBRARY_PATH:<path to libOpenCL.so>
+
+In the examples given above, these lines would be
+
+     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/fglrx
+
+or
+     setenv LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/lib64/nvidia
+
+--------------------------------------------------------------------------------
+II. (f) Installing CARrampsOcl
+--------------------------------------------------------------------------------
+
+When the environment variable settings have taken effect, the CARrampsOcl 
+package may be installed. 
+
+If you have downloaded the package source from CRAN, installation may
+be done from the terminal command prompt:
+
+  R CMD INSTALL CARrampsOcl_<version>.tar.gz
+
+Otherwise, installation may be done from the R command prompt:
+
+  install.packages("CARrampsOcl")
+
+
+

@@ -1,0 +1,15 @@
+useDynLib(CARrampsOcl)
+
+export(CARrampsOcl.fit,
+       makeQ,
+       makeRW1Q,
+       makeRW2Q,
+       plot2Q,
+       plot3Q,
+       plotCAR1,
+       plotCAR1plus1Q,
+       rdirichlet
+)
+
+import(OpenCL)
+importFrom(fields, image.plot)
