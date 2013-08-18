@@ -13,7 +13,11 @@
 //#include "combo1colForR_d.h"
 
 // OpenCL includes
- #include <CL/opencl.h>
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#else
+#include <CL/opencl.h>
+#endif
 
 // OpenCL kernel
 

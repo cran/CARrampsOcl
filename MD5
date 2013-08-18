@@ -1,4 +1,4 @@
-8a0e0cedb94fc42e9d9998495ef0acab *DESCRIPTION
+4697fa25b165c418daf0715e3c1fc736 *DESCRIPTION
 23b089492755270c1cf87f445b0ac213 *INSTALL
 2382d20cb3804e2011fd1f8d74e8f83a *NAMESPACE
 6cf9bf98fad41edcd5e597c8a30f6681 *R/CARrampsOcl.fit.R
@@ -58,6 +58,6 @@ e231c2c07b4e953e15934f51c1ba7408 *man/rdirichlet.Rd
 6e14108b7ab980387012f227e26fb14a *man/setup2.Rd
 a6ff6e6dd3e200c17a94fbcdd58b9419 *man/setup3.Rd
 9a55a5ae3be73e8b00ae47b4a10f4c3e *src/Makevars
-23ea2f7fa52b5e5be3b72f6c6a753d07 *src/oclCombo1col.c
-4830e78dfc1e8798424ede462c13d0ad *src/oclCombo1col1.c
-1e8d7b048c662f4d1d999f63a7a5787a *src/oclCombo1col3.c
+e86098f34ac3591d38cbb7506ae6dfab *src/oclCombo1col.c
+58f46e715454a7b045ff36a4b3c23eef *src/oclCombo1col1.c
+492f2defd8c9d430e6a6840ef3d96f3f *src/oclCombo1col3.c
